@@ -1,4 +1,4 @@
-#CRIAR UMA COLEÇÃO
+#CRIAR UMA COLEï¿½ï¿½O
 
 db.createCollection("alunos");
 
@@ -9,11 +9,11 @@ db.alunos.insert({
 "data_nascimento": new Date(1994,02,26),
 "notas":[10,9,4.5],
 "curso":{
-"nome":"Sistemas de informação"
+"nome":"Sistemas de informaï¿½ï¿½o"
 },
 "habilidades":[{
-"nome":"inglês",
-"nível":"Avançado"}]})
+"nome":"inglï¿½s",
+"nï¿½vel":"Avanï¿½ado"}]})
 
 #LISTANDO ALUNOS
 
@@ -23,29 +23,43 @@ db.alunos.find()
 
 db.alunos.remove(ObjectId("5a7a007c906b36a20091bb72"))
 
-#LISTANDO ALUNOS COM RESTRIÇÃO
+#LISTANDO ALUNOS COM RESTRIï¿½ï¿½O
 
 db.alunos.find({"nome":"Felipe"})
 db.alunos.find({"nome":"Felipe","data_nascimento":new Date(1994,02,26)})
-db.alunos.find({"habilidades.nome":"Inglês"})
+db.alunos.find({"habilidades.nome":"Inglï¿½s"})
 
 #OR
 
-db.alunos.find({$or:[{"curso.nome":"Sistemas da informação"},{"curso.nome":"Marketing"}]})
+db.alunos.find({$or:[{"curso.nome":"Sistemas da informaï¿½ï¿½o"},{"curso.nome":"Marketing"}]})
 
 #IN
 
-db.alunos.find({"curso.nome":{ $in:["Sistemas da informação","Ciência da computação"]}})
+db.alunos.find({"curso.nome":{ $in:["Sistemas da informaï¿½ï¿½o","Ciï¿½ncia da computaï¿½ï¿½o"]}})
 
 #UPDATE
 
 db.alunos.update({"_id" : ObjectId("5a7af84fc33980c2ff1febd5")},
 {$set:{
-"nome":"Paulo","data_nascimento":new Date(1976,05,27),"notas":[10,9,8],"curso":{"nome":"Publicidade"},"habilidades":[{"nome":"Dinamarquês","nivel":"Avançado"},{"nome":"Excel","nivel":"Avançado"}]}})
+"nome":"Paulo","data_nascimento":new Date(1976,05,27),"notas":[10,9,8],"curso":{"nome":"Publicidade"},"habilidades":[{"nome":"Dinamarquï¿½s","nivel":"Avanï¿½ado"},{"nome":"Excel","nivel":"Avanï¿½ado"}]}})
 db.alunos.update({"data_nascimento" : ISODate("1980-01-31T02:00:00Z")},
-{$set:{"curso.nome":"Administração"}})
-db.alunos.update({"curso.nome":"Administração"},{$set:{"curso.nome":"Marketing"}},{multi:true})
+{$set:{"curso.nome":"Administraï¿½ï¿½o"}})
+db.alunos.update({"curso.nome":"Administraï¿½ï¿½o"},{$set:{"curso.nome":"Marketing"}},{multi:true})
 
 #ADICIONAR VALOR NO ARRAY
 db.alunos.update({"nome":"Rafael"},{$push:{"notas":10}})
 db.alunos.update({"nome":"Rafael"},{$push:{"notas":{$each:[100,100]}}})
+
+#MENOR QUE
+db.alunos.find({"notas":{$lt:5}})
+
+#MAIOR QUE
+db.alunos.find({"notas":{$gt:5}})
+
+#PEGANDO UM APENAS
+db.alunos.findOne({"curso.nome":"Marketing"})
+db.alunos.find({"curso.nome":"Marketing"}).limit(1)
+
+#ORDENANDO
+db.alunos.find().sort({"nome":1}) asc
+db.alunos.find().sort({"nome":-1}) desc

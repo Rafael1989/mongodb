@@ -63,3 +63,39 @@ db.alunos.find({"curso.nome":"Marketing"}).limit(1)
 #ORDENANDO
 db.alunos.find().sort({"nome":1}) asc
 db.alunos.find().sort({"nome":-1}) desc
+
+#IMPORTANDO ARQUIVOS
+mongoimport -c alunos --jsonArray < alunos.json
+
+
+#CRIANDO INDEX
+db.alunos.createIndex({localizacao:"2dsphere"})
+
+#BUSCANDO POR PROXIMIDADE
+db.alunos.aggregate([
+	{
+		 $geoNear : {
+			 near : {
+				 coordinates : [-23.5640265, -46.6527128],
+				 type : "Point"
+		 	 },
+		 	 distanceField : "distance.calculada",
+		 	 spherical : true
+		 }
+	}
+])
+
+#LIMITANDO A BUSCA POR PROXIMIDADE
+db.alunos.aggregate([ 
+	{ $geoNear : 
+		{ 	near : 
+				{ coordinates : [-23.5640265, -46.6527128], type : "Point" }, 
+			distanceField : "distance.calculada", 
+			spherical : true, 
+			num : 4 
+		} 
+	},
+	{ $skip : 1 } 
+])
+
+
